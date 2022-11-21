@@ -3,11 +3,11 @@ package model
 import "gorm.io/gorm"
 
 type User struct {
+	AvatarUrl   string
+	NickName    string
 	Openid      string
 	Permission  int
 	PhoneNumber string
-	AvatarUrl   string
-	NickName    string
 	gorm.Model
 }
 
