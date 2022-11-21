@@ -20,8 +20,6 @@ type User struct {
 	Permission  int
 	Openid      string
 	PhoneNumber string
-	NickName    string
-	AvatarUrl   string
 	gorm.Model
 }
 
@@ -53,6 +51,10 @@ func (m *model) UserRegisterOrDoNothing(openid, nickName, avatarUrl string) erro
 	return nil
 }
 func (m *model) UserModifyPermission(userId, permission int) error {
+	err := m.db.Model(&User{}).Where("id = ?", userId).Update("permission", permission).Error
+	return err
+}
+func (m *model) UserModifyDermission(userId, permission int) error {
 	err := m.db.Model(&User{}).Where("id = ?", userId).Update("permission", permission).Error
 	return err
 }
