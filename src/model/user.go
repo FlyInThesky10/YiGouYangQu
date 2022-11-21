@@ -6,8 +6,8 @@ type User struct {
 	Openid      string
 	Permission  int
 	PhoneNumber string
-	NickName    string
 	AvatarUrl   string
+	NickName    string
 	gorm.Model
 }
 
