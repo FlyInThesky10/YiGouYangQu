@@ -67,10 +67,10 @@ func (m *model) CartAddProduct(userId, productId int) (int, error) {
 			return err
 		}
 	})
+	var cart Cart
 	if err != nil {
 		return 0, err
 	}
-	var cart Cart
 	err = m.db.Model(&Cart{}).Where("owner_user_id = ? AND product_id = ?", userId, productId).Take(&cart).Error
 	if err != nil {
 		return 0, err
