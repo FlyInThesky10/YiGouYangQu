@@ -38,15 +38,11 @@ func (m *model) UserRegisterOrDoNothing(openid, nickName, avatarUrl string) erro
 	}
 	return nil
 }
-func (m *model) UserGetProfile(openid string) (User, error) {
-	var user = User{}
-	err := m.db.Model(&User{}).Where("openid = ?", openid).Take(&user).Error
-	if err != nil {
-		return User{}, err
-	}
-	return user, nil
-}
 func (m *model) UserModifyPermission(userId, permission int) error {
+	err := m.db.Model(&User{}).Where("id = ?", userId).Update("permission", permission).Error
+	return err
+}
+func (m *model) UserModifyDermission(userId, permission int) error {
 	err := m.db.Model(&User{}).Where("id = ?", userId).Update("permission", permission).Error
 	return err
 }
