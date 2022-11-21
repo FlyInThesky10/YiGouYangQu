@@ -1,10 +1,24 @@
 package model
-
+		PhoneNumber: "",
+				NickName:    nickName,
+				AvatarUrl:   avatarUrl,
+			}).Error
+			if err != nil {
+				return err
 import "gorm.io/gorm"
 
+func (m *model) UserGetProfile(openid string) (User, error) {
+	var user = User{}
+	err := m.db.Model(&User{}).Where("openid = ?", openid).Take(&user).Error
+	if err != nil {
+		return User{}, err
+	}
+	return user, nil
+}
+
 type User struct {
-	Openid      string
 	Permission  int
+	Openid      string
 	PhoneNumber string
 	NickName    string
 	AvatarUrl   string
@@ -37,14 +51,6 @@ func (m *model) UserRegisterOrDoNothing(openid, nickName, avatarUrl string) erro
 		return err
 	}
 	return nil
-}
-func (m *model) UserGetProfile(openid string) (User, error) {
-	var user = User{}
-	err := m.db.Model(&User{}).Where("openid = ?", openid).Take(&user).Error
-	if err != nil {
-		return User{}, err
-	}
-	return user, nil
 }
 func (m *model) UserModifyPermission(userId, permission int) error {
 	err := m.db.Model(&User{}).Where("id = ?", userId).Update("permission", permission).Error
